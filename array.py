@@ -5,7 +5,6 @@ class Array:
     '''
         Creates an array ADT with size elements
         Array size is to be passed
-
     '''
     def __init__(self, size):
         assert size>0, "Array size must be greater than 0."
@@ -63,9 +62,9 @@ class _ArrayIterator:
 
 # Implementation of Array2D ADT using an array of arrays
 class Array2D:
-    """
+    '''
         2D Array implemented using Array of Arrays
-    """
+    '''
 
     # Creates a 2D Array of size numRows x numCols
     def __init__(self, numRows, numCols):
@@ -78,11 +77,11 @@ class Array2D:
 
     # Returns the number of rows
     def numRows(self):
-        return len(_theRows)
+        return len(self._theRows)
 
     # Returns the number of columns
     def numCols(self):
-        return len(_theRows[0])
+        return len(self._theRows[0])
 
     # Clears the Array by setting every element to a given value
     def clear(self, value):
@@ -92,14 +91,20 @@ class Array2D:
     # Gets the contents of the element at position [i, j]
     def __getitem__(self, ndxTuple):
         assert len(ndxTuple) == 2, "Invalid number of Array subscripts"
-        return self._theRows[i][j]
+        row, col = ndxTuple
+        return self._theRows[row][col]
 
     # Sets the contents of the element at position [i, j] to value
     def __setitem__(self, ndxTuple, value):
         assert len(ndxTuple) == 2, "Invalid number of Array subscripts"
-        row, col = ndxTuple[0], ndxTuple[1]
+        row, col = ndxTuple
         assert row >= 0 and row <= self.numRows() and col >= 0 and col <= self.numCols(), \
         "Array subscripts out of range"
-        self._theRows[i][j] = value
+        self._theRows[row][col] = value
+        return
 
-        
+if __name__ == '__main__':
+    array = Array2D(1, 2)
+    array.__setitem__((0, 0), 1)
+    array.__setitem__((0, 1), 2)
+    print(array.__getitem__((0, 0)))
