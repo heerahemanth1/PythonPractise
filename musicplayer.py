@@ -9,6 +9,7 @@ class MusicPlayer(Frame):
 
 	def create_widgets(self):
 		self.Quit = Button(self, text = 'Exit',command = self.quit)
+		self.list = 
 		self.Quit.pack(side='bottom')
 
 root = Tk()
@@ -18,7 +19,3 @@ mm.title("Music Player")
 mm.minsize(600, 400)
 
 mplayer.mainloop()
-
-20027297106
-Santhosh 
-SBIN0021523
