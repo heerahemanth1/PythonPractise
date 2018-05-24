@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+# -*- Coding: utf-8 -*-
 # Author - Heera Hemanth Bylla < heerahemanth1@icloud.com >
 import ctypes
 
@@ -104,7 +106,4 @@ class Array2D:
         return
 
 if __name__ == '__main__':
-    array = Array2D(1, 2)
-    array.__setitem__((0, 0), 1)
-    array.__setitem__((0, 1), 2)
-    print(array.__getitem__((0, 0)))
+    Array(3)
