@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 # -*- Coding: utf-8 -*-
 # Author - Heera Hemanth Bylla < heerahemanth1@icloud.com >
+
 import ctypes
 
 class Array:
@@ -88,7 +89,7 @@ class Array2D:
     # Clears the Array by setting every element to a given value
     def clear(self, value):
         for i in range(self.numRows()):
-            row.clear(value)
+            self._theRows.clear(value)
 
     # Gets the contents of the element at position [i, j]
     def __getitem__(self, ndxTuple):
