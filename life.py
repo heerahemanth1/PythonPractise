@@ -3,10 +3,14 @@
 # Author - Heera Hemanth Bylla < heerahemanth1@icloud.com >
 
 # Implements the LifeGrid ADT for use with the Game of Life
-from array import Array2D
+from marray import Array2D
 
 
 class LifeGrid:
+    """ The LifeGrid is an Abstract Data Type(ADT) for the implementation
+        of the GameOfLife. It handles the game grid and it's functions.
+        This class is imported into the GameOfLife and used directly.
+    """
     # Defines constants to represents the cell states.
     DEAD_CELL = 0
     LIVE_CELL = 1
