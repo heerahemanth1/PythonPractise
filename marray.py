@@ -20,7 +20,7 @@ class Array:
         self.clear(None)
 
     def __str__(self):
-        string = 'Array: ( '
+        string = self.__class__.__name__ + ': ( '
         for i in range(len(self)-1):
             string += str(self._elements[i])+', '
         string += str(self._elements[len(self)-1])+' )'
