@@ -1,6 +1,11 @@
-# Implementing the Matrix ADT using a 2D Array
+#!/usr/bin/python3
+# -*- Coding: utf-8 -*-
+# Author - Heera Hemanth Bylla < heerahemanth1@icloud.com >
+
 from array import Array2D
 
+
+# Implementing the Matrix ADT using a 2D Array
 class Matrix:
     '''
         Matric of numRows x numCols using 2D Array

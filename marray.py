@@ -4,6 +4,7 @@
 
 import ctypes
 
+
 class Array:
     '''
         Creates an array ADT with size elements
@@ -17,6 +18,13 @@ class Array:
         self._elements = PyArrayType()
         # Initialize each element
         self.clear(None)
+
+    def __str__(self):
+        string = 'Array: ( '
+        for i in range(len(self)-1):
+            string += str(self._elements[i])+', '
+        string += str(self._elements[len(self)-1])+' )'
+        return string
 
     # Returns the size of the array
     def __len__(self):
@@ -40,6 +48,7 @@ class Array:
     # Returns the array's iterator for traversing the elements
     def __iter__(self):
         return _ArrayIterator(self._elements)
+
 
 # Iterator for the Array ADT
 class _ArrayIterator:
@@ -78,6 +87,14 @@ class Array2D:
         for i in range(numRows):
             self._theRows[i] = Array(numCols)
 
+    def __str__(self):
+        string = self.__class__.__name__+':\n'
+        for i in range(self.numRows()):
+            for j in range(self.numCols()-1):
+                string += str(self._theRows[i][j]) + ', '
+            string += str(self._theRows[i][self.numCols()-1]) + '\n'
+        return string
+
     # Returns the number of rows
     def numRows(self):
         return len(self._theRows)
@@ -89,7 +106,7 @@ class Array2D:
     # Clears the Array by setting every element to a given value
     def clear(self, value):
         for i in range(self.numRows()):
-            self._theRows.clear(value)
+            self._theRows[i].clear(value)
 
     # Gets the contents of the element at position [i, j]
     def __getitem__(self, ndxTuple):
@@ -107,4 +124,5 @@ class Array2D:
         return
 
 if __name__ == '__main__':
-    Array(3)
+    a = Array2D(3,2)
+    print(a.numCols())
